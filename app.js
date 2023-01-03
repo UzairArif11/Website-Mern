@@ -1,14 +1,14 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 const express = require("express");
 const app = express();
-dotenv.config({path:"./config.env"});
-require('./DB/conn');
+dotenv.config({ path: "./config.env" });
+require("./DB/conn");
 // const User = require("./model/userSchema");
 
 // we link the router files to make our route easy
-app.use(require('./router/auth'))
+app.use(require("./router/auth"));
+//jojoj
 const PORT = process.env.PORT;
-
 
 //middleware
 const middleware = (req, res, next) => {
@@ -16,7 +16,6 @@ const middleware = (req, res, next) => {
   next();
 };
 
- 
 app.get("/about", middleware, (req, res) => {
   console.log("Hello from About");
   res.send(`Hello About from the server`);
@@ -33,4 +32,4 @@ app.get("/signup", (req, res) => {
 
 app.listen(3000, () => {
   console.log(`server is running on PORT ${PORT}`);
-}); 
+});
