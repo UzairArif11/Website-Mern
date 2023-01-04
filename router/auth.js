@@ -19,6 +19,7 @@ router.get("/about", middleware, (req, res) => {
 router.get("/contact", (req, res) => {
   res.send(`Hello Contact from the server`);
 });
+
 router.post("/login", async (req, res) => {
   try {
     const { password, email } = req.body;
@@ -32,7 +33,11 @@ router.post("/login", async (req, res) => {
       if (isMatch) {
         //generate token in userSchema
         const token = await userlogin.generateAuthToken();
-
+        console.log(token);
+        res.cookie("jwtoken", token,{
+          expires: new Date(Date.now() + 2589200000),
+          httpOnly:true 
+        });
         res.json({ massage: "User registered successfully" });
       } else {
         res.status(400).json({ error: "Invalid Credientials" });
