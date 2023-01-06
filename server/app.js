@@ -8,7 +8,7 @@ const User = require("./model/userSchema");
 app.use(express.json());
 // we link the router files to make our route easy
 app.use(require("./router/auth"));
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.Port || 4000;
 
 app.listen(3000, () => {
   console.log(`server is running on PORT ${PORT}`);

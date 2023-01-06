@@ -1,5 +1,5 @@
 .footer {
-  background-color: rgb(42, 42, 220);
+  background-color: rgb(125, 125, 129);
   width: 100%;
   color: #fff;
   display: flex;
@@ -12,18 +12,23 @@
   padding-top: auto;
 
 }
+.footer p ,.footer h1{
+  font-weight: 100;
+  font-size: small;
+}
 
 .empty{
   height: 20vh;
 }
 
-.main {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  height: auto;
-  margin-top: 100px;
-  margin-left: 200px;
+.DisplayPic1{
+  margin-top: 8px;
+  vertical-align: middle;
+ 
+}
+.DisplayPic1 img{
+  height: 200px;
+  width: auto;
 }
 
 .row {
@@ -35,13 +40,6 @@
 .column {
   flex: 50%;
   padding: 0 4px;
-}
-
-.column img {
-  margin-top: 8px;
-  height: 200px;
-  width: auto;
-  vertical-align: middle;
 }
 
 
@@ -98,7 +96,6 @@
   transform: translateY(2px);
   box-shadow: 0 2.5px 5px rgba(0, 0, 0, 0.2);
 }
-
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
