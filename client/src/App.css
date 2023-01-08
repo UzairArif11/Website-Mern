@@ -1,3 +1,4 @@
+/* Main Ul  */
 .footer {
   background-color: rgb(125, 125, 129);
   width: 100%;
@@ -24,23 +25,15 @@
 .DisplayPic1{
   margin-top: 8px;
   vertical-align: middle;
+  box-sizing: border-box;
  
 }
 .DisplayPic1 img{
-  height: 200px;
+ height: 100px;
   width: auto;
 }
 
-.row {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 0 4px;
-}
-.column {
-  flex: 50%;
-  padding: 0 4px;
-}
+/* Contact Page */
 
 
 .login-page {
@@ -97,19 +90,86 @@
   box-shadow: 0 2.5px 5px rgba(0, 0, 0, 0.2);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.profile-work{
+  color: rgb(142, 140, 140);
 }
 
-
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* 404 Error Page */
+#notfound{
+  position: relative;
+  height: 100vh;
+}
+#notfound .notfound{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%,50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  
+}
+.notfound{
+  max-width: 920px;
+  width: 100%;
+  line-height: 1.4;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px ;
+}
+.notfound .notfound-404 h1{
+  font-family:"Maven Pro", sans-serif;
+  color: rgb(252 13 13 / 44%);
+  font-weight: 900;
+  font-size: 276px;
+  margin: 0px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%,50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  z-index: -1;
+  
+}
+.notfound h2 {
+  font-family:"Maven Pro", sans-serif;
+  color: rgb(29, 27, 27);
+  font-size: 46px;
+  text-transform: uppercase;
+  margin: 0px;
+}
+.notfound p {
+  font-family:"Maven Pro", sans-serif;
+  color: rgb(29, 27, 27);
+  font-size: 16px;
+  text-transform: uppercase;
+  margin-top: 15px;
+}
+.notfound a {
+  font-family:"Maven Pro", sans-serif;
+  color: rgb(255, 255, 255);
+  font-weight: 400;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  background: #0d6ac7;
+  display: inline-block;
+  padding: 16px 38px;
+  border: 2px solid transparent;
+  border-radius: 40px;
+  -webkit-transition: 0.2s all;
+  transition: 0.2s all;
+}
+.notfound a:hover {
+  color: #c70d0d;
+  background: rgb(255, 255, 255);
+  border-color: #072e54;
+}
+@media only screen and (max-width: 600px) {
+  .notfound .notfound-404 h1{
+    font-size:  150px;
   }
-  to {
-    transform: rotate(360deg);
+  .notfound h2{
+    font-size: 20px;
   }
 }

@@ -7,7 +7,7 @@ const Contact = () => {
         <div className="row">
           <div className="col-11">
             <section className="mb-5">
-              <h2 className="h1-responsive font-weight-bold text-center my-4">
+              <h2 className="h1-responsive font-weight-bold text-center my-5">
                 Contact us
               </h2>
 
@@ -18,7 +18,7 @@ const Contact = () => {
               </p>
 
               <div className="row">
-                <div className="col-md-9 mb-md-0 mb-5">
+                <div className="col-md-8 mb-md-0 mb-5">
                   <form
                     id="contact-form"
                     name="contact-form"
@@ -88,12 +88,8 @@ const Contact = () => {
                   </form>
 
                   <div className="text-center text-md-left">
-                    <a
-                      className="btn btn-primary"
-                      onclick="document.getElementById('contact-form').submit();"
-                    >
-                      Send
-                    </a>
+                  <button type="button" className="btn btn-primary">Send</button>
+
                   </div>
                   <div className="status"></div>
                 </div>
@@ -145,6 +141,7 @@ const Contact = () => {
                 </div>
               </div>
             </section>
+            <div className="empty"></div>
           </div>
         </div>
       </div>

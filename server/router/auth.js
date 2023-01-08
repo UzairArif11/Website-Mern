@@ -68,7 +68,7 @@ router.post("/register", async (req, res) => {
       res.status(201).json({ massage: "user registered successfully" });
     }
   } catch (err) {
-    console.log(err);
+    console.log(err );
   }
 });
 
