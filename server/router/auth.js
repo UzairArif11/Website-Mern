@@ -2,25 +2,21 @@ const express = require("express");
 const { findOne } = require("../model/userSchema");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-
+const Authentication = require("../Middleware/Authentication");
 const User = require("../model/userSchema");
-//middleware
-const middleware = (req, res, next) => {
-  console.log("Hello from middlware");
-  next();
-};
+
 router.get("/", (req, res) => {
   res.send(`Hello from the server`);
 });
-router.get("/about", middleware, (req, res) => {
+router.get("/about", Authentication, (req, res) => {
   console.log("Hello from About");
-  res.send(`Hello About from the server`);
+  res.send(req.rootUser);
 });
 router.get("/contact", (req, res) => {
   res.send(`Hello Contact from the server`);
 });
 
-router.post("/login", async (req, res) => {
+router.post("/signIn", async (req, res) => {
   try {
     const { password, email } = req.body;
     if (!password || !email) {
@@ -34,11 +30,12 @@ router.post("/login", async (req, res) => {
         //generate token in userSchema
         const token = await userlogin.generateAuthToken();
         console.log(token);
-        res.cookie("jwtoken", token,{
+        res.cookie("jwtoken", token, {
           expires: new Date(Date.now() + 2589200000),
-          httpOnly:true 
+          httpOnly: true,
         });
-        res.json({ massage: "User registered successfully" });
+
+        res.json({ massage: "User LogIn successfully" });
       } else {
         res.status(400).json({ error: "Invalid Credientials" });
       }
@@ -68,7 +65,7 @@ router.post("/register", async (req, res) => {
       res.status(201).json({ massage: "user registered successfully" });
     }
   } catch (err) {
-    console.log(err );
+    console.log(err);
   }
 });
 

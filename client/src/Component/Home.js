@@ -18,7 +18,7 @@ const Home = () => {
                   </p>
                 </div>
                 <div className="DisplayPic1 col-4">
-                  <img src={triangle} alt="" srcset="" />
+                  <img src={triangle} alt="" srcSet="" />
                 </div>
               </div>
             </main>

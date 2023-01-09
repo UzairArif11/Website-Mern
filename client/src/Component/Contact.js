@@ -34,7 +34,7 @@ const Contact = () => {
                             name="name"
                             className="form-control"
                           />
-                          <label for="name" className="">
+                          <label htmlFor="name" className="">
                             Your name
                           </label>
                         </div>
@@ -48,7 +48,7 @@ const Contact = () => {
                             name="email"
                             className="form-control"
                           />
-                          <label for="email" className="">
+                          <label htmlFor="email" className="">
                             Your email
                           </label>
                         </div>
@@ -64,7 +64,7 @@ const Contact = () => {
                             name="subject"
                             className="form-control"
                           />
-                          <label for="subject" className="">
+                          <label htmlFor="subject" className="">
                             Subject
                           </label>
                         </div>
@@ -81,15 +81,16 @@ const Contact = () => {
                             rows="2"
                             className="form-control md-textarea"
                           ></textarea>
-                          <label for="message">Your message</label>
+                          <label htmlFor="message">Your message</label>
                         </div>
                       </div>
                     </div>
                   </form>
 
                   <div className="text-center text-md-left">
-                  <button type="button" className="btn btn-primary">Send</button>
-
+                    <button type="button" className="btn btn-primary">
+                      Send
+                    </button>
                   </div>
                   <div className="status"></div>
                 </div>

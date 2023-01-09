@@ -1,27 +1,68 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Login = () => {
-  return <>
-<div className="login-page " >
-  <form className="form ">
-    <h2>Welcome</h2>
-    <h6>Signin to your Account</h6>
-    <input type="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password"/>
-    <button type="submit">Login</button>
-    <div>
-      <h4>Donot have an Account</h4>
-      <NavLink className="nav-link active" aria-current="page" to="/signup">SignUp</NavLink>
-    </div>
-  </form>
-</div>
-<div className="empty">
+  const navigate = useNavigate();
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
 
-</div>
-  
-  </>;
+  const LoginUser = async (e) => {
+    e.preventDefault();
+
+    const res = await fetch("/signIn", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+    console.log(data);
+    console.log(res);
+    if (!data || res.status === 400) {
+      window.alert("Invalid Credentials");
+    } else {
+      window.alert("Login Successful");
+      navigate("/");
+    }
+  };
+  return (
+    <>
+      <div className="login-page ">
+        <form method="POST" className="form ">
+          <h2>Welcome</h2>
+          <h6>Signin to your Account</h6>
+          <input
+            name="email"
+            value={email}
+            onChange={(e) => setemail(e.target.value)}
+            type="email"
+            placeholder="Email"
+          />
+          <input
+            name="password"
+            value={password}
+            onChange={(e) => setpassword(e.target.value)}
+            type="password"
+            id="password"
+            placeholder="Password"
+          />
+          <button type="submit" onClick={LoginUser}>
+            Login
+          </button>
+          <div>
+            <h4>Donot have an Account</h4>
+            <NavLink
+              className="nav-link active"
+              aria-current="page"
+              to="/signup"
+            >
+              SignUp
+            </NavLink>
+          </div>
+        </form>
+      </div>
+      <div className="empty"></div>
+    </>
+  );
 };
 
 export default Login;
