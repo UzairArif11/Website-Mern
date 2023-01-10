@@ -6,7 +6,7 @@ const About = () => {
   const navigate = useNavigate();
   const callAboutPage = async () => {
     try {
-      const res = await fetch("/about", {
+      const res = await fetch("/aboutUs", {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -21,12 +21,12 @@ const About = () => {
       }
     } catch (error) {
       console.log(error);
-      navigate("/");
+      navigate("/login");
     }
   };
   useEffect(() => {
     callAboutPage();
-  }, []);
+  } );
 
   return (
     <>
@@ -34,7 +34,7 @@ const About = () => {
         <div className="row">
           <div className="col-8">
             <div className="container emp-profile">
-              <form method="">
+              <form method="GET">
                 <div className="row">
                   <div className="DisplayPic1 col-md-4">
                     <img src={triangle} alt="Thapa" />
