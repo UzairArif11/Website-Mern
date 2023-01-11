@@ -34,6 +34,26 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+  messages: [
+    {
+      name: {
+        type: String,
+        require: true,
+      },
+      email: {
+        type: String,
+        require: true,
+      },
+      message: {
+        type: String,
+        require: true,
+      },
+    },
+  ],
 });
 
 // we are hashing the password
@@ -52,12 +72,22 @@ userSchema.methods.generateAuthToken = async function () {
     const token = jwt.sign({ _id: this._id }, process.env.SECRETKEY);
     this.tokens = this.tokens.concat({ token: token });
     await this.save();
-    return this.tokens;
+    return token;
   } catch (error) {
     console.log(error);
   }
 };
 
+// stored the message
+userSchema.methods.addMessage = async function (name, email, message) {
+  try {
+    this.messages = this.messages.concat({ name, email, message });
+    await this.save();
+    return this.messages;
+  } catch (error) {
+    console.log(error);
+  }
+};
 //collection creation
 const User = mongoose.model("REGISTARATIONS", userSchema);
 module.exports = User;

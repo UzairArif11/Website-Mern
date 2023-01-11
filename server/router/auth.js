@@ -1,36 +1,38 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const Authenticate = require("../Middleware/Authentication");
+const Authentication = require("../Middleware/Authentication");
 const User = require("../model/userSchema");
-const cookieParser = require("cookie-parser");
-const router = express();
-router.use(cookieParser());
 const jwt = require("jsonwebtoken");
-const bodyParser = require("body-parser");
-router.use(bodyParser.json());
-
 const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: true }));
-
 router.use(cookieParser());
-//middleware
-const middleware = (req, res, next) => {
-  console.log("Hello from middlware");
-  next();
-};
+
 router.get("/", (req, res) => {
   res.send(`Hello from the server`);
 });
-router.get("/aboutUs", Authenticate, (req, res) => {
+router.get("/aboutUs", Authentication, (req, res) => {
   console.log("Hello from About");
   res.send(req.rootUser);
 });
-router.get("/contact", (req, res) => {
-  res.send(`Hello Contact from the server`);
+router.get("/getData", Authentication, (req, res) => {
+  res.send(req.rootUser);
+});
+router.post("/contactUs", Authentication, async (req, res) => {
+  try {
+    const { name, email, message } = req.body;
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: "Plz fill the contact data" });
+    }
+    const useContact = await User.findOne({ _id: req.userID });
+    if (useContact) {
+      const userMessage = await useContact.addMessage(name, email, message);
+      await useContact.save();
+
+      res.status(201).json({ massage: "user Contact successfully" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 router.post("/signIn", async (req, res) => {
@@ -46,7 +48,6 @@ router.post("/signIn", async (req, res) => {
       if (isMatch) {
         //generate token in userSchema
         const token = await userlogin.generateAuthToken();
-        console.log(token);
         res.cookie("jwtoken", token, {
           expires: new Date(Date.now() + 2589200000),
           httpOnly: true,

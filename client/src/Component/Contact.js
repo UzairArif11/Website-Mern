@@ -1,6 +1,70 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Contact = () => {
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const ContactPage = async () => {
+    try {
+      const res = await fetch("/getData", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+
+      setUserData({ ...userData, name: data.name, email: data.email });
+
+      if (!res.status === 200) {
+        throw new Error(res.error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    ContactPage();
+  }, []);
+
+  //we are storing data in states
+  const handleInput = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setUserData({ ...userData, [name]: value });
+  };
+  // send the data to backend
+
+  const contactForm = async (e) => {
+    e.preventDefault();
+    const { name, email, message } = userData;
+
+    const res = await fetch("/contactUs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        name,
+        email,
+        message,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!data || res.status === 400) {
+      console.log("message not send");
+    } else {
+      alert("Message send");
+      setUserData({ ...userData, message: "" });
+    }
+  };
   return (
     <>
       <div className="container-fluid bg-light ">
@@ -19,54 +83,37 @@ const Contact = () => {
 
               <div className="row">
                 <div className="col-md-8 mb-md-0 mb-5">
-                  <form
-                    id="contact-form"
-                    name="contact-form"
-                    // action="mail.php"
-                    method="POST"
-                  >
+                  <form id="contact-form" name="contact-form" method="POST">
                     <div className="row">
                       <div className="col-md-6">
+                        <label htmlFor="name" className="">
+                          Your name
+                        </label>
                         <div className="md-form mb-0">
                           <input
                             type="text"
                             id="name"
                             name="name"
                             className="form-control"
+                            onChange={handleInput}
+                            value={userData.name}
                           />
-                          <label htmlFor="name" className="">
-                            Your name
-                          </label>
                         </div>
                       </div>
 
                       <div className="col-md-6">
                         <div className="md-form mb-1">
-                          <input
-                            type="text"
-                            id="email"
-                            name="email"
-                            className="form-control"
-                          />
                           <label htmlFor="email" className="">
                             Your email
                           </label>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="md-form mb-0">
                           <input
-                            type="text"
-                            id="subject"
-                            name="subject"
+                            type="email"
+                            id="email"
+                            name="email"
                             className="form-control"
+                            onChange={handleInput}
+                            value={userData.email}
                           />
-                          <label htmlFor="subject" className="">
-                            Subject
-                          </label>
                         </div>
                       </div>
                     </div>
@@ -74,24 +121,31 @@ const Contact = () => {
                     <div className="row">
                       <div className="col-md-12">
                         <div className="md-form">
+                          <label htmlFor="message">Your message</label>
+
                           <textarea
                             type="text"
                             id="message"
                             name="message"
                             rows="2"
                             className="form-control md-textarea"
+                            onChange={handleInput}
+                            value={userData.message}
                           ></textarea>
-                          <label htmlFor="message">Your message</label>
                         </div>
                       </div>
                     </div>
+                    <div className="text-center mt-4 text-md-left">
+                      <button
+                        type="button"
+                        onClick={contactForm}
+                        className="btn btn-primary"
+                      >
+                        Send
+                      </button>
+                    </div>
                   </form>
 
-                  <div className="text-center text-md-left">
-                    <button type="button" className="btn btn-primary">
-                      Send
-                    </button>
-                  </div>
                   <div className="status"></div>
                 </div>
 

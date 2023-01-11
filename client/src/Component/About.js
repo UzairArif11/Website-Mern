@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import triangle from "../images/triangle.png";
 import { useNavigate } from "react-router-dom";
 
 const About = () => {
+  const [userData, setUserData] = useState("");
   const navigate = useNavigate();
   const callAboutPage = async () => {
     try {
@@ -17,7 +18,8 @@ const About = () => {
 
       const data = await res.json();
       console.log(data);
-      console.log(res);
+      setUserData(data);
+
       if (!res.status === 200) {
         throw new Error(res.error);
       }
@@ -28,7 +30,7 @@ const About = () => {
   };
   useEffect(() => {
     callAboutPage();
-  });
+  }, [setUserData]);
 
   return (
     <>
@@ -43,8 +45,8 @@ const About = () => {
                   </div>
                   <div className="col-md-6">
                     <div className="profile-head">
-                      <h5>Uzair Arif</h5>
-                      <h6>Full Stack Deveolper</h6>
+                      <h5>{userData.name}</h5>
+                      <h6>{userData.work}</h6>
                       <p>
                         Ranking: <span> 1/10 </span>
                       </p>
@@ -138,12 +140,24 @@ const About = () => {
                         aria-labelledby="home-tab"
                       >
                         <div className="row">
-                          <div className="col-6">Name: </div>
-                          <div className="col-6">Uzair</div>
+                          <div className="col-6">ID:</div>
+                          <div className="col-6">{userData._id}</div>
                         </div>
                         <div className="row">
                           <div className="col-6">Name: </div>
-                          <div className="col-6">Uzair</div>
+                          <div className="col-6">{userData.name}</div>
+                        </div>
+                        <div className="row">
+                          <div className="col-6">Email: </div>
+                          <div className="col-6">{userData.email}</div>
+                        </div>
+                        <div className="row">
+                          <div className="col-6">Phone: </div>
+                          <div className="col-6">{userData.phone}</div>
+                        </div>
+                        <div className="row">
+                          <div className="col-6">Profession: </div>
+                          <div className="col-6">{userData.work}</div>
                         </div>
                       </div>
                       <div
