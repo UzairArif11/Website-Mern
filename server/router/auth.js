@@ -1,6 +1,5 @@
 const express = require("express");
-const { findOne } = require("../model/userSchema");
-// const router = express.Router();
+const router = express.Router();
 const bcrypt = require("bcrypt");
 const Authenticate = require("../Middleware/Authentication");
 const User = require("../model/userSchema");
@@ -11,11 +10,22 @@ const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 router.use(bodyParser.json());
 
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
+
+router.use(cookieParser());
+//middleware
+const middleware = (req, res, next) => {
+  console.log("Hello from middlware");
+  next();
+};
 router.get("/", (req, res) => {
   res.send(`Hello from the server`);
 });
-
-router.get("/about", Authenticate, (req, res) => {
+router.get("/aboutUs", Authenticate, (req, res) => {
   console.log("Hello from About");
   res.send(req.rootUser);
 });
@@ -41,8 +51,7 @@ router.post("/signIn", async (req, res) => {
           expires: new Date(Date.now() + 2589200000),
           httpOnly: true,
         });
-
-        res.json({ massage: "User LogIn successfully" });
+        res.json({ massage: "User login successfully" });
       } else {
         res.status(400).json({ error: "Invalid Credentials" });
       }

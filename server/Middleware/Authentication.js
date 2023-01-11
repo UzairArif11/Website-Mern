@@ -1,18 +1,14 @@
 const jwt = require("jsonwebtoken");
 const User = require("../model/userSchema");
 
-const Authenticate = async (req, res, next) => {
+const Authentication = async (res, req, next) => {
   try {
-    //get jwt token from cookies
     const token = req.cookies.jwtoken;
-    //verifying token with SECRET_KEY
     const verifyToken = jwt.verify(token, process.env.SECRETKEY);
-    // get user data from token, if token id(from cookies)===tokens.token
     const rootUser = await User.findOne({
       _id: verifyToken._id,
-      "tokens.token": token,
+      "tokens:token": token,
     });
-
     if (!rootUser) {
       throw new Error("user not found");
     }
@@ -24,10 +20,9 @@ const Authenticate = async (req, res, next) => {
     req.userID = rootUser._id;
 
     next();
-  } catch (err) {
-    res.status(401).send("unauthorized: no token provided");
-    console.log(err);
+  } catch (error) {
+    res.status(401).send("Unauthorized:No token provided");
+    console.log(error);
   }
 };
-
-module.exports = Authenticate;
+module.exports = Authentication;
