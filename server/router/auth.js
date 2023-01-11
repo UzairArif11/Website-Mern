@@ -1,14 +1,21 @@
 const express = require("express");
 const { findOne } = require("../model/userSchema");
-const router = express.Router();
+// const router = express.Router();
 const bcrypt = require("bcrypt");
-const Authentication = require("../Middleware/Authentication");
+const Authenticate = require("../Middleware/Authentication");
 const User = require("../model/userSchema");
+const cookieParser = require("cookie-parser");
+const router = express();
+router.use(cookieParser());
+const jwt = require("jsonwebtoken");
+const bodyParser = require("body-parser");
+router.use(bodyParser.json());
 
 router.get("/", (req, res) => {
   res.send(`Hello from the server`);
 });
-router.get("/about", Authentication, (req, res) => {
+
+router.get("/about", Authenticate, (req, res) => {
   console.log("Hello from About");
   res.send(req.rootUser);
 });
@@ -37,10 +44,10 @@ router.post("/signIn", async (req, res) => {
 
         res.json({ massage: "User LogIn successfully" });
       } else {
-        res.status(400).json({ error: "Invalid Credientials" });
+        res.status(400).json({ error: "Invalid Credentials" });
       }
     } else {
-      res.status(400).json({ error: "Invalid Credientials" });
+      res.status(400).json({ error: "Invalid Credentials" });
     }
   } catch (error) {
     console.log(error);

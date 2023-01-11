@@ -14,8 +14,10 @@ const About = () => {
         },
         credentials: "include",
       });
+
       const data = await res.json();
       console.log(data);
+      console.log(res);
       if (!res.status === 200) {
         throw new Error(res.error);
       }
@@ -26,7 +28,7 @@ const About = () => {
   };
   useEffect(() => {
     callAboutPage();
-  }, []);
+  });
 
   return (
     <>
