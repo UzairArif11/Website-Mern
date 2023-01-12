@@ -20,6 +20,7 @@ const About = () => {
       //Successfully login profile
       const data = await res.json();
       dispatch({ type: "USER", payload: true });
+      setUserData(data);
       // logout profile
       if (!res.status === 200) {
         throw new Error(res.error);
