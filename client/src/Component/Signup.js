@@ -1,8 +1,9 @@
-import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../App";
 
 const SignUp = () => {
+  const { state, dispatch } = useContext(UserContext);
   const navigate = useNavigate();
   const [user, setuser] = useState({
     name: "",
@@ -27,9 +28,12 @@ const SignUp = () => {
       body: JSON.stringify({ name, email, phone, work, password, cpassword }),
     });
 
+    // Successfully Registered
     const data = await res.json();
     console.log(data);
     console.log(res);
+    dispatch({ type: "USER", payload: true });
+
     if (!data || res.status === 422) {
       window.alert("Invalid Registration");
       console.log("Invalid Registration");

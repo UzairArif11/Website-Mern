@@ -85,5 +85,12 @@ router.post("/register", async (req, res) => {
     console.log(err);
   }
 });
+router.get("/logOut", (req, res) => {
+  console.log("Hello from Logout");
+  res.clearCookie("jwtoken");
+  res.status(200).send("User logout");
+  res.redirect("/");
+  res.json({ loggedOut: true });
+});
 
 module.exports = router;

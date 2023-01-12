@@ -1,6 +1,43 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import triangle from "../images/triangle.png";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
+
 const Home = () => {
+  const { state, dispatch } = useContext(UserContext);
+  const [userData, setUserData] = useState("");
+  const [show, setShow] = useState("false");
+  const navigate = useNavigate();
+  const homePage = async () => {
+    try {
+      const res = await fetch("/getData", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      // Successfully Login profile
+      const data = await res.json();
+      setUserData(data);
+      setShow(true);
+      dispatch({ type: "USER", payload: true });
+
+      // Logout profile
+      if (!res.status === 200) {
+        throw new Error(res.error);
+      }
+    } catch (error) {
+      console.log(error);
+      setShow(false);
+      dispatch({ type: "USER", payload: false });
+    }
+  };
+  useEffect(() => {
+    homePage();
+  }, [setUserData, setShow]);
+
   return (
     <>
       <div className="container-fluid my-5">
@@ -9,7 +46,12 @@ const Home = () => {
             <main className="main">
               <div className="row">
                 <div className="col-8">
-                  <h1>Exercise Tracker</h1>
+                  <h1>
+                    {show
+                      ? `Welcome ${userData.name} to Exercise Tracker`
+                      : `Exercise Tracker`}
+                  </h1>
+                  Exercise Tracker
                   <p>
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                     Nam repudiandae, cum deserunt nesciunt ipsa quia atque

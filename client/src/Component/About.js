@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import triangle from "../images/triangle.png";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
 
 const About = () => {
+  const { state, dispatch } = useContext(UserContext);
   const [userData, setUserData] = useState("");
   const navigate = useNavigate();
   const callAboutPage = async () => {
@@ -15,16 +17,15 @@ const About = () => {
         },
         credentials: "include",
       });
-
+      //Successfully login profile
       const data = await res.json();
-      console.log(data);
-      setUserData(data);
-
+      dispatch({ type: "USER", payload: true });
+      // logout profile
       if (!res.status === 200) {
         throw new Error(res.error);
       }
     } catch (error) {
-      console.log(error);
+      dispatch({ type: "USER", payload: false });
       navigate("/login");
     }
   };

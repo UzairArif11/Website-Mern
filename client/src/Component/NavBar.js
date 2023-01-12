@@ -1,6 +1,53 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { UserContext } from "../App";
+
 const Navbar = () => {
+  const { state, dispatch } = useContext(UserContext);
+  const RenderMenu = () => {
+    if (state) {
+      return (
+        <>
+          <form className="d-flex" role="search">
+            <button type="button" className="btn btn-outline-dark">
+              <NavLink
+                className="nav-link active"
+                aria-current="page"
+                to="/logout"
+              >
+                Logout
+              </NavLink>
+            </button>
+          </form>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <form className="d-flex" role="search">
+            <button type="button" className="btn btn-outline-dark">
+              <NavLink
+                className="nav-link active"
+                aria-current="page"
+                to="/login"
+              >
+                Login
+              </NavLink>
+            </button>
+            <button type="button" className="btn btn-outline-dark">
+              <NavLink
+                className="nav-link active"
+                aria-current="page"
+                to="/signup"
+              >
+                Sign Up
+              </NavLink>
+            </button>
+          </form>
+        </>
+      );
+    }
+  };
   return (
     <>
       <div className="container-fluid">
@@ -47,27 +94,7 @@ const Navbar = () => {
                       </NavLink>
                     </li>
                   </ul>
-                  <form className="d-flex" role="search">
-                    <button type="button" className="btn btn-outline-dark">
-                      <NavLink
-                        className="nav-link active"
-                        aria-current="page"
-                        to="/login"
-                      >
-                        Login
-                      </NavLink>
-                    </button>
-                    <button type="button" className="btn btn-outline-dark">
-                      <NavLink
-                        className="nav-link active"
-                        aria-current="page"
-                        to="/signup"
-                      >
-                        {" "}
-                        Sign Up
-                      </NavLink>
-                    </button>
-                  </form>
+                  <RenderMenu />
                 </div>
               </div>
             </nav>

@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "../App";
 
 const Contact = () => {
+  const { state, dispatch } = useContext(UserContext);
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -14,16 +16,16 @@ const Contact = () => {
           "Content-Type": "application/json",
         },
       });
-
+      // Successfully login profile
       const data = await res.json();
-
+      dispatch({ type: "USER", payload: true });
       setUserData({ ...userData, name: data.name, email: data.email });
-
+      //logout profile
       if (!res.status === 200) {
         throw new Error(res.error);
       }
     } catch (error) {
-      console.log(error);
+      dispatch({ type: "USER", payload: false });
     }
   };
   useEffect(() => {
